@@ -1,0 +1,30 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100;
+  background: black;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+#scene {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+
+#ui {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+}
+
+button {
+  padding: 10px 18px;
+  background: #ffffff20;
+  color: white;
+  border: 1px solid #ffffff60;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+}
