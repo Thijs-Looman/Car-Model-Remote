@@ -1,6 +1,5 @@
 let scene, camera, renderer, controls;
-let carModel;
-let lightsOn = false;
+let car;
 
 init();
 animate();
@@ -12,9 +11,9 @@ function init() {
     45,
     window.innerWidth / window.innerHeight,
     0.1,
-    500
+    200
   );
-  camera.position.set(2.5, 1.2, 4);
+  camera.position.set(2.5, 1.4, 4);
 
   renderer = new THREE.WebGLRenderer({
     canvas: document.getElementById("scene"),
@@ -29,52 +28,37 @@ function init() {
   controls.autoRotate = true;
   controls.autoRotateSpeed = 1;
 
-  const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+  const ambient = new THREE.AmbientLight(0xffffff, 0.6);
   scene.add(ambient);
 
-  const directional = new THREE.DirectionalLight(0xffffff, 1);
-  directional.position.set(5, 10, 5);
-  scene.add(directional);
+  const sun = new THREE.DirectionalLight(0xffffff, 1.2);
+  sun.position.set(5, 10, 5);
+  scene.add(sun);
 
   const loader = new THREE.GLTFLoader();
   loader.load(
-    "models/yourModel.gltf",
+    "models/LOT_ExigeCup430_18.glb",
     gltf => {
-      carModel = gltf.scene;
-      scene.add(carModel);
+      car = gltf.scene;
+
+      // centreren
+      const box = new THREE.Box3().setFromObject(car);
+      const center = box.getCenter(new THREE.Vector3());
+      car.position.sub(center);
+
+      // op de grond zetten
+      const yOffset = box.min.y;
+      car.position.y -= yOffset;
+
+      scene.add(car);
     }
   );
-
-  document.getElementById("toggleLights").addEventListener("click", toggleLights);
 
   window.addEventListener("resize", () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
   });
-}
-
-function toggleLights() {
-  if (!carModel) return;
-
-  lightsOn = !lightsOn;
-
-  carModel.traverse(obj => {
-    if (obj.isMesh && obj.material) {
-      if (obj.name.toLowerCase().includes("light")) {
-        if (lightsOn) {
-          obj.material.emissive = new THREE.Color(1, 1, 1);
-          obj.material.emissiveIntensity = 6;
-        } else {
-          obj.material.emissive = new THREE.Color(0, 0, 0);
-          obj.material.emissiveIntensity = 0;
-        }
-      }
-    }
-  });
-
-  document.getElementById("toggleLights").textContent =
-    lightsOn ? "Lights on" : "Lights off";
 }
 
 function animate() {
