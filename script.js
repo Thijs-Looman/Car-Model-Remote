@@ -37,16 +37,14 @@ function init() {
 
   const loader = new THREE.GLTFLoader();
   loader.load(
-    "models/LOT_ExigeCup430_18.glb",
+    "models/Lotus 3d Model.glb",
     gltf => {
       car = gltf.scene;
 
-      // centreren
       const box = new THREE.Box3().setFromObject(car);
       const center = box.getCenter(new THREE.Vector3());
       car.position.sub(center);
 
-      // op de grond zetten
       const yOffset = box.min.y;
       car.position.y -= yOffset;
 

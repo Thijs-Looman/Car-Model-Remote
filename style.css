@@ -12,19 +12,3 @@ html, body {
   height: 100vh;
   display: block;
 }
-
-#ui {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 10;
-}
-
-button {
-  padding: 10px 18px;
-  background: #ffffff20;
-  color: white;
-  border: 1px solid #ffffff60;
-  cursor: pointer;
-  backdrop-filter: blur(6px);
-}
