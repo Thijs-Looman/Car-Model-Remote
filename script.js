@@ -36,25 +36,25 @@ function init() {
   scene.add(sun);
 
   const loader = new THREE.GLTFLoader();
-loader.load(
-  "models/Lotus.glb",
-  gltf => {
-    car = gltf.scene;
-    const box = new THREE.Box3().setFromObject(car);
-    const center = box.getCenter(new THREE.Vector3());
-    car.position.sub(center);
+  loader.load(
+    "models/lotus.glb",
+    gltf => {
+      car = gltf.scene;
 
-    const yOffset = box.min.y;
-    car.position.y -= yOffset;
+      const box = new THREE.Box3().setFromObject(car);
+      const center = box.getCenter(new THREE.Vector3());
+      car.position.sub(center);
 
-    scene.add(car);
-  },
-  undefined,
-  err => {
-    console.log("Error loading model:", err);
-  }
-);
+      const yOffset = box.min.y;
+      car.position.y -= yOffset;
 
+      scene.add(car);
+    },
+    undefined,
+    err => {
+      console.log("Model load error", err);
+    }
+  );
 
   window.addEventListener("resize", () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
